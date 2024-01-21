@@ -1,26 +1,33 @@
-import React, {useState, useEffect} from 'react';
-import {View, TextInput, Button} from 'react-native';
+import React, {useState, useEffect, useSyncExternalStore} from 'react';
+import {View} from 'react-native';
 import {
-  IconButton,
   TextInput as PaperTextInput,
   Button as PaperButton,
   HelperText,
   Text,
 } from 'react-native-paper';
 import {Picker} from '@react-native-picker/picker';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import CustomDateTimePicker from '../../../components/CustomDateTimePicker';
 import styles from './styles';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {STRINGS} from '../../../shared/constants';
 import {COLORS} from '../../../shared/utils';
+import {useSelector} from 'react-redux';
 
-const TaskForm = ({route, navigation}) => {
+const TaskForm = () => {
+  const route = useRoute();
+  const navigation = useNavigation();
   const {taskId} = route.params || {};
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('Personal');
+  const [category, setCategory] = useState(STRINGS.PERSONAL);
+  const [priority, setPriority] = useState(STRINGS.HIGH);
   const [dueDate, setDueDate] = useState(null);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [error, setError] = useState('');
+
+  const state = useSelector(state => state);
+  console.log(state, 'this is stae guys');
 
   useEffect(() => {
     // Fetch task details for editing (implementation in Storage.js)
@@ -35,32 +42,32 @@ const TaskForm = ({route, navigation}) => {
 
   const onSubmit = () => {
     // Add your validation logic here
-    if (!title.trim() || !description.trim() || !category || !dueDate) {
+    if (
+      !title.trim() ||
+      !description.trim() ||
+      !category ||
+      !dueDate ||
+      !priority
+    ) {
       setError('All fields are required');
       return;
     }
 
     // Save or update task logic (implementation in Storage.js)
-    const data = {title, description, category, dueDate};
+    const data = {
+      title,
+      description,
+      category,
+      dueDate,
+      priority,
+      completed: false,
+    };
     // saveOrUpdateTask(data);
     navigation.goBack();
   };
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = date => {
-    hideDatePicker();
-    setDueDate(date);
-  };
-
   return (
-    <View style={{padding: 16}}>
+    <KeyboardAwareScrollView>
       <PaperTextInput
         label="Title"
         value={title}
@@ -68,7 +75,7 @@ const TaskForm = ({route, navigation}) => {
         error={error && !title.trim()}
       />
       <HelperText type="error" visible={error && !title?.trim()}>
-        {error}
+        {STRINGS.ERROR_MESSAGE.TITLE_REQUIRED}
       </HelperText>
       <PaperTextInput
         label="Description"
@@ -77,39 +84,43 @@ const TaskForm = ({route, navigation}) => {
         error={error && !description.trim()}
       />
       <HelperText type="error" visible={error && !description?.trim()}>
-        {error}
+        {STRINGS.ERROR_MESSAGE.DESCRIPTION_REQUIRED}
       </HelperText>
 
       <Text style={styles.text}>Category</Text>
       <View style={styles.pickerStyle}>
         <Picker
-          style={{color: '#000'}}
-          dropdownIconColor="#000"
+          style={styles.picker}
+          dropdownIconColor={COLORS.BLACK}
           selectedValue={category}
           onValueChange={value => setCategory(value)}>
-          <Picker.Item label="Personal" value="Personal" />
-          <Picker.Item label="Work" value="Work" />
+          <Picker.Item label={STRINGS.PERSONAL} value={STRINGS.PERSONAL} />
+          <Picker.Item label={STRINGS.WORK} value={STRINGS.WORK} />
         </Picker>
       </View>
-      <Text style={styles.text}>Category</Text>
+      <Text style={styles.text}>{STRINGS.PRIORITY}</Text>
       <View style={styles.pickerStyle}>
         <Picker
-          style={{color: '#000'}}
-          dropdownIconColor="#000"
+          style={styles.picker}
+          dropdownIconColor={COLORS.BLACK}
           selectedValue={category}
           onValueChange={value => setCategory(value)}>
-          <Picker.Item label="Personal" value="Personal" />
-          <Picker.Item label="Work" value="Work" />
+          <Picker.Item label={STRINGS.HIGH} value={STRINGS.HIGH} />
+          <Picker.Item label={STRINGS.MEDIUM} value={STRINGS.MEDIUM} />
+          <Picker.Item label={STRINGS.LOW} value={STRINGS.LOW} />
         </Picker>
       </View>
 
       <Text style={styles.text}>Due Date</Text>
       <CustomDateTimePicker />
 
-      <PaperButton mode="contained" onPress={onSubmit} style={{marginTop: 16}}>
-        Save
+      <PaperButton
+        mode="contained"
+        onPress={onSubmit}
+        style={styles.buttonStyle}>
+        {STRINGS.SAVE}
       </PaperButton>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

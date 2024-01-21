@@ -5,6 +5,19 @@ export const STRINGS = {
   TODAY: 'Today',
   COMPLETED: 'Completed',
   CATEGORIES: 'Categories',
+  HIGH: 'High',
+  MEDIUM: 'Medium',
+  LOW: 'Low',
+  PERSONAL: 'Personal',
+  WORK: 'Work',
+  PRIORITY: 'Priority',
+  CATEGORY: 'Category',
+  DUE_DATE: 'Due date',
+  SAVE: 'Save',
+  ERROR_MESSAGE: {
+    TITLE_REQUIRED: 'Title is required',
+    DESCRIPTION_REQUIRED: 'Description is required',
+  },
 };
 
 export const NAVIGATORS = {

@@ -10,12 +10,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.BORDER_COLOR,
     borderRadius: SIZES.SPACING_HORIZONTAL,
+    marginBottom: SIZES.SPACING_VERTICAL * 2,
   },
   text: {
     color: COLORS.BLACK,
+    marginBottom: SIZES.SPACING_VERTICAL / 2,
   },
   errorText: {
     color: COLORS.RED,
+  },
+  picker: {
+    color: COLORS.BLACK,
+  },
+  buttonStyle: {
+    marginTop: SIZES.SPACING_VERTICAL * 2,
+    paddingVertical: SIZES.SPACING_VERTICAL / 2,
   },
 });
 
