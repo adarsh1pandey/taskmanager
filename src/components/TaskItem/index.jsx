@@ -85,7 +85,7 @@ const TaskItem = ({
               },
               styles.description,
             ]}>
-            {task?.date?.toLocaleString()}{' '}
+            {new Date(task?.date)?.toLocaleString()}{' '}
             {task?.date < new Date() && (
               <Text style={styles.descriptionOverDue}>{STRINGS.OVERDUE}</Text>
             )}

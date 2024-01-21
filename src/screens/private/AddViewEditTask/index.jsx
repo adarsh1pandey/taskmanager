@@ -22,6 +22,7 @@ const TaskForm = () => {
   const task = route?.params?.task;
   const edit = route?.params?.edit;
   const add = route?.params?.add;
+  const incomingCategory = route?.params?.category;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(STRINGS.PERSONAL);
@@ -40,6 +41,9 @@ const TaskForm = () => {
       setPriority(task?.priority);
       setDueDate(task?.dueDate);
     }
+    if (incomingCategory) {
+      setCategory(incomingCategory);
+    }
   }, []);
 
   const onSubmit = () => {
@@ -54,6 +58,32 @@ const TaskForm = () => {
       return;
     }
     const currentDate = new Date();
+    if (edit) {
+      const updatedArray = taskArray.reduce(function (
+        accumulator,
+        currentValue,
+      ) {
+        if (currentValue.id === task?.id) {
+          accumulator.push({
+            ...currentValue,
+            title: title,
+            description: description,
+            category: category,
+            dueDate: dueDate,
+            priority,
+            completed: false,
+          });
+        } else {
+          accumulator.push(currentValue);
+        }
+
+        return accumulator;
+      },
+      []);
+      dispatch(updateTaskArray({tasks: updatedArray}));
+      navigation.goBack();
+      return;
+    }
 
     const data = {
       id: currentDate?.getTime(),

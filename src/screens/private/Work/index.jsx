@@ -44,7 +44,10 @@ const Work = () => {
   };
 
   const handleAddTaskButtonPress = () => {
-    navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK, {add: true});
+    navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK, {
+      add: true,
+      category: STRINGS.WORK,
+    });
   };
 
   const handleTaskMarkAsCompleted = (value, item) => {

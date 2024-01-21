@@ -43,7 +43,10 @@ const Personal = () => {
   };
 
   const handleAddTaskButtonPress = () => {
-    navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK, {add: true});
+    navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK, {
+      add: true,
+      category: STRINGS.PERSONAL,
+    });
   };
 
   const handleTaskMarkAsCompleted = (value, item) => {
