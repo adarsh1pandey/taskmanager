@@ -20,6 +20,12 @@ const styles = StyleSheet.create({
     width: SIZES.WIDTH * 0.6,
     fontWeight: '400',
   },
+  descriptionOverDue: {
+    color: COLORS.RED,
+    fontSize: SIZES.font15,
+    width: SIZES.WIDTH * 0.6,
+    fontWeight: '400',
+  },
   iconStyle: {
     margin: 0,
     paddingTop: SIZES.SPACING_HORIZONTAL / 2,
@@ -31,8 +37,11 @@ const styles = StyleSheet.create({
     marginLeft: SIZES.SPACING_HORIZONTAL,
   },
   dateAndCategory: {
-    marginLeft: SIZES.SPACING_HORIZONTAL * 4.6,
+    marginHorizontal: SIZES.SPACING_HORIZONTAL * 4.6,
     marginBottom: SIZES.SPACING_VERTICAL * 2,
+  },
+  dateAndOverDue: {
+    flexDirection: 'row',
   },
 });
 

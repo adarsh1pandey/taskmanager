@@ -21,6 +21,7 @@ const TabNavigator = () => {
         name={NAVIGATORS.HOME}
         component={Home}
         options={{
+          headerTitle: STRINGS.HOME,
           tabBarLabel: STRINGS.HOME,
           tabBarIcon: ({color, size}) => (
             <HOME_ICON size={size} color={color} />
@@ -31,6 +32,7 @@ const TabNavigator = () => {
         name={NAVIGATORS.TODAY}
         component={Today}
         options={{
+          headerTitle: STRINGS.TODAY,
           tabBarLabel: STRINGS.TODAY,
           tabBarIcon: ({color, size}) => (
             <TODAY_ICON size={size} color={color} />
@@ -41,6 +43,7 @@ const TabNavigator = () => {
         name={NAVIGATORS.COMPLETED}
         component={Completed}
         options={{
+          headerTitle: STRINGS.COMPLETED,
           tabBarLabel: STRINGS.COMPLETED,
           tabBarIcon: ({color, size}) => (
             <COMPLETED_ICON size={size} color={color} />
@@ -51,6 +54,7 @@ const TabNavigator = () => {
         name={NAVIGATORS.CATEGORIES}
         component={Categories}
         options={{
+          headerTitle: STRINGS.CATEGORIES,
           tabBarLabel: STRINGS.CATEGORIES,
           tabBarIcon: ({color, size}) => (
             <CATEGORY_ICON size={size} color={color} />

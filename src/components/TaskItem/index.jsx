@@ -4,15 +4,17 @@ import {List, IconButton} from 'react-native-paper';
 import {COLORS, getNormalizedSizeWithPlatformOffset} from '../../shared/utils';
 import CheckBox from '@react-native-community/checkbox';
 import styles from './styles';
+import {STRINGS} from '../../shared/constants';
 
 const TaskItem = ({
   task,
   onPress,
   onEdit,
   onDelete,
+  disable = false,
   onCheckBoxToggle = value => {},
 }) => {
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const [toggleCheckBox, setToggleCheckBox] = useState(task?.completed);
 
   const renderRight = props => {
     return (
@@ -45,7 +47,7 @@ const TaskItem = ({
       <View style={styles.leftStyle}>
         <CheckBox
           tintColors={{true: COLORS.RED, false: COLORS.BLACK}}
-          disabled={false}
+          disabled={disable}
           value={toggleCheckBox}
           onValueChange={handleToggleCheckBox}
         />
@@ -74,13 +76,20 @@ const TaskItem = ({
         left={renderLeft}
       />
       <View style={styles.dateAndCategory}>
-        <Text
-          style={[
-            {textDecorationLine: toggleCheckBox ? 'line-through' : 'none'},
-            styles.description,
-          ]}>
-          {task?.date?.toLocaleString()}
-        </Text>
+        <View style={styles.dateAndOverDue}>
+          <Text
+            style={[
+              {
+                textDecorationLine: toggleCheckBox ? 'line-through' : 'none',
+              },
+              styles.description,
+            ]}>
+            {task?.date?.toLocaleString()}{' '}
+            {task?.date < new Date() && (
+              <Text style={styles.descriptionOverDue}>{STRINGS.OVERDUE}</Text>
+            )}
+          </Text>
+        </View>
         <Text
           style={[
             {textDecorationLine: toggleCheckBox ? 'line-through' : 'none'},

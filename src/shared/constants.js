@@ -18,6 +18,8 @@ export const STRINGS = {
   DESCRIPTION: 'Description',
   EDIT: 'Edit',
   UPDATE: 'Update',
+  OVERDUE: 'Over due',
+  DATA_NOT_FOUND: 'Data Not found',
   ERROR_MESSAGE: {
     TITLE_REQUIRED: 'Title is required',
     DESCRIPTION_REQUIRED: 'Description is required',

@@ -1,24 +1,41 @@
-import {View, ScrollView, Text, TouchableOpacity, FlatList} from 'react-native';
-import React from 'react';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import TaskItem from '../../../components/TaskItem';
 import styles from './styles';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {NAVIGATORS} from '../../../shared/constants';
+import {updateTaskArray} from '../../../store/Slices/TaskSlice';
 import {ADD_ICON} from '../../../assets/icons';
 import {
   getNormalizedSizeWithPlatformOffset,
   getNormalizedVerticalSizeWithPlatformOffset,
 } from '../../../shared/utils';
-import {useNavigation} from '@react-navigation/native';
-import {NAVIGATORS} from '../../../shared/constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateTaskArray} from '../../../store/Slices/TaskSlice';
 import CustomNoDataFound from '../../../components/CustomNoDataFound';
 
-const Home = () => {
-  const navigation = useNavigation();
+const Today = () => {
   const dispatch = useDispatch();
-  const taskArray = useSelector(state => state?.taskSlice?.tasks) || [];
-  console.log(taskArray, 'this is task array ');
+  const navigation = useNavigation();
+  const taskArray = useSelector(state => state?.taskSlice?.tasks);
+  const [todayTask, setTodayTask] = useState([]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      setTodayTask(taskArray);
+      return () => {
+        setTodayTask([]);
+      };
+    }, [taskArray]),
+  );
+
+  function areDatesEqual(date1, date2) {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
   const handleTaskItemEditPress = task => {
     navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK, {task, edit: true});
   };
@@ -48,7 +65,11 @@ const Home = () => {
 
     dispatch(updateTaskArray({tasks: [...updatedArray]}));
   };
+
   const renderTasks = ({item}, index) => {
+    if (!areDatesEqual(new Date(item?.dueDate), new Date())) {
+      return;
+    }
     return (
       <TaskItem
         task={{
@@ -65,16 +86,14 @@ const Home = () => {
       />
     );
   };
-
   return (
     <View style={styles.container}>
       <FlatList
-        data={taskArray}
-        keyExtractor={item => item?.id}
+        data={todayTask}
         renderItem={renderTasks}
+        keyExtractor={item => item?.id}
         ListEmptyComponent={CustomNoDataFound}
       />
-
       <TouchableOpacity
         style={styles.addIconView}
         onPress={handleAddTaskButtonPress}>
@@ -87,4 +106,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Today;

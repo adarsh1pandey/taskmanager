@@ -19,7 +19,6 @@ import {updateTaskArray} from '../../../store/Slices/TaskSlice';
 const TaskForm = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  // const {task, edit} = route.params;
   const task = route?.params?.task;
   const edit = route?.params?.edit;
   const add = route?.params?.add;
@@ -32,7 +31,6 @@ const TaskForm = () => {
 
   const taskArray = useSelector(state => state?.taskSlice?.tasks);
   const dispatch = useDispatch();
-  console.log(taskArray, 'this is stae guys');
 
   useEffect(() => {
     if (task?.id) {
@@ -62,7 +60,7 @@ const TaskForm = () => {
       title,
       description,
       category,
-      dueDate: dueDate.getTime(),
+      dueDate: dueDate,
       priority,
       completed: false,
     };
