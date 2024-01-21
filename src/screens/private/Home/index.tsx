@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, ScrollView, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import TaskItem from '../../../components/TaskItem';
 import styles from './styles';
@@ -27,12 +27,14 @@ const Home = () => {
     navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK);
   };
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
+    <ScrollView style={styles.container}>
       {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(() => (
         <TaskItem
           task={{
-            title: 'adarshjfkdsahfjkashldfsahkfhaslhfkjlahkjdfsahlh',
+            date: new Date(),
+            category: 'adarsh',
+
+            title: 'Adarshjfkdsahfjkashldfsahkfhaslhfkjlahkjdfsahlh',
             description:
               'Pandeydjkhsflhafakfhkadfshjklasdfhkshaldfjkhdsakjlhfjklasgfhkjashfljkasfhklfhjklashfjkasdhflsah',
           }}
@@ -50,7 +52,7 @@ const Home = () => {
           width={getNormalizedSizeWithPlatformOffset(40)}
         />
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 

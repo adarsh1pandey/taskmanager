@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../../screens/public/Login';
 import {NAVIGATORS} from '../../shared/constants';
 import Private from '../../screens/private';
-import AddEditViewTask from '../../screens/private/AddViewEditTask/AddEditViewTask';
+import AddEditViewTask from '../../screens/private/AddViewEditTask';
 
 const Stack = createNativeStackNavigator();
 

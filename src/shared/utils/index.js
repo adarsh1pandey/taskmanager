@@ -44,6 +44,8 @@ export const SIZES = {
     tablet ? 7 : 12,
   ),
   SPACING_HORIZONTAL: getNormalizedSizeWithPlatformOffset(tablet ? 7 : 12),
+  WIDTH: SCREEN_WIDTH,
+  HEIGHT: SCREEN_HEIGHT,
 
   font12: getNormalizedSizeWithPlatformOffset(12),
   font13: getNormalizedSizeWithPlatformOffset(13),
@@ -52,9 +54,13 @@ export const SIZES = {
   font16: getNormalizedSizeWithPlatformOffset(16),
   font17: getNormalizedSizeWithPlatformOffset(17),
   font18: getNormalizedSizeWithPlatformOffset(18),
+  font24: getNormalizedSizeWithPlatformOffset(24),
 };
 
 export const COLORS = {
   WHITE: '#fff',
   RED: '#f00',
+  BLACK: '#000',
+  BORDER_COLOR: '#8956ff',
+  BACKGROUND_COLOR: '#e7ddff',
 };
