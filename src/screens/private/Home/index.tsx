@@ -1,4 +1,4 @@
-import {View, ScrollView, Text, TouchableOpacity} from 'react-native';
+import {View, ScrollView, Text, TouchableOpacity, FlatList} from 'react-native';
 import React from 'react';
 import TaskItem from '../../../components/TaskItem';
 import styles from './styles';
@@ -9,9 +9,13 @@ import {
 } from '../../../shared/utils';
 import {useNavigation} from '@react-navigation/native';
 import {NAVIGATORS} from '../../../shared/constants';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Home = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const taskArray = useSelector(state => state?.taskSlice?.tasks);
+  console.log(taskArray, 'this is task array ');
 
   const handleTaskItemEditPress = () => {
     console.log('edit pressed');
@@ -26,24 +30,32 @@ const Home = () => {
   const handleAddTaskButtonPress = () => {
     navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK);
   };
-  return (
-    <ScrollView style={styles.container}>
-      {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(() => (
-        <TaskItem
-          task={{
-            date: new Date(),
-            category: 'adarsh',
 
-            title: 'Adarshjfkdsahfjkashldfsahkfhaslhfkjlahkjdfsahlh',
-            description:
-              'Pandeydjkhsflhafakfhkadfshjklasdfhkshaldfjkhdsakjlhfjklasgfhkjashfljkasfhklfhjklashfjkasdhflsah',
-          }}
-          onPress={handleTaskItemPressed}
-          onDelete={handleTaskItemDeletePress}
-          onEdit={handleTaskItemEditPress}
-          date={'dsafk'}
-        />
-      ))}
+  const renderTasks = ({item}, index) => {
+    return (
+      <TaskItem
+        task={{
+          date: item?.dueDate,
+          category: item?.category,
+
+          title: item?.title,
+          description: item?.description,
+        }}
+        onPress={handleTaskItemPressed}
+        onDelete={handleTaskItemDeletePress}
+        onEdit={handleTaskItemEditPress}
+      />
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={taskArray}
+        keyExtractor={item => item?.id}
+        renderItem={renderTasks}
+      />
+
       <TouchableOpacity
         style={styles.addIconView}
         onPress={handleAddTaskButtonPress}>
@@ -52,7 +64,7 @@ const Home = () => {
           width={getNormalizedSizeWithPlatformOffset(40)}
         />
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 };
 

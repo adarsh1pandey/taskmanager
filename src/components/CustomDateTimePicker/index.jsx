@@ -5,7 +5,7 @@ import {Text} from 'react-native-paper';
 import styles from './styles';
 
 const CustomDateTimePicker = ({
-  onDateChange = () => {},
+  onDateChange = date => {},
   initialDate = new Date(),
   initialMode = 'datetime',
 }) => {

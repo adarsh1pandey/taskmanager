@@ -14,6 +14,8 @@ export const STRINGS = {
   CATEGORY: 'Category',
   DUE_DATE: 'Due date',
   SAVE: 'Save',
+  TITLE: 'Title',
+  DESCRIPTION: 'Description',
   ERROR_MESSAGE: {
     TITLE_REQUIRED: 'Title is required',
     DESCRIPTION_REQUIRED: 'Description is required',

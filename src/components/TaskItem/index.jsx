@@ -5,7 +5,7 @@ import {COLORS, getNormalizedSizeWithPlatformOffset} from '../../shared/utils';
 import CheckBox from '@react-native-community/checkbox';
 import styles from './styles';
 
-const TaskItem = ({task, onPress, onEdit, onDelete, date, category}) => {
+const TaskItem = ({task, onPress, onEdit, onDelete}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const renderRight = props => {

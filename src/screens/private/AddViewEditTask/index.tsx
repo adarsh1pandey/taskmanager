@@ -13,7 +13,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {STRINGS} from '../../../shared/constants';
 import {COLORS} from '../../../shared/utils';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateTaskArray} from '../../../store/Slices/TaskSlice';
 
 const TaskForm = () => {
   const route = useRoute();
@@ -23,11 +24,12 @@ const TaskForm = () => {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(STRINGS.PERSONAL);
   const [priority, setPriority] = useState(STRINGS.HIGH);
-  const [dueDate, setDueDate] = useState(null);
+  const [dueDate, setDueDate] = useState(new Date());
   const [error, setError] = useState('');
 
-  const state = useSelector(state => state);
-  console.log(state, 'this is stae guys');
+  const taskArray = useSelector(state => state?.taskSlice?.tasks);
+  const dispatch = useDispatch();
+  console.log(taskArray, 'this is stae guys');
 
   useEffect(() => {
     // Fetch task details for editing (implementation in Storage.js)
@@ -58,18 +60,32 @@ const TaskForm = () => {
       title,
       description,
       category,
-      dueDate,
+      dueDate: dueDate,
       priority,
       completed: false,
     };
+    console.log(taskArray, 'this is task array ');
     // saveOrUpdateTask(data);
+    dispatch(updateTaskArray({tasks: [...taskArray, data]}));
     navigation.goBack();
+  };
+
+  const handleOnSelectCategory = value => {
+    setCategory(value);
+  };
+
+  const handleOnSelectPriority = value => {
+    setPriority(value);
+  };
+
+  const handleDateSelect = date => {
+    setDueDate(date);
   };
 
   return (
     <KeyboardAwareScrollView>
       <PaperTextInput
-        label="Title"
+        label={STRINGS.TITLE}
         value={title}
         onChangeText={setTitle}
         error={error && !title.trim()}
@@ -78,7 +94,7 @@ const TaskForm = () => {
         {STRINGS.ERROR_MESSAGE.TITLE_REQUIRED}
       </HelperText>
       <PaperTextInput
-        label="Description"
+        label={STRINGS.DESCRIPTION}
         value={description}
         onChangeText={setDescription}
         error={error && !description.trim()}
@@ -87,13 +103,13 @@ const TaskForm = () => {
         {STRINGS.ERROR_MESSAGE.DESCRIPTION_REQUIRED}
       </HelperText>
 
-      <Text style={styles.text}>Category</Text>
+      <Text style={styles.text}>{STRINGS.CATEGORIES}</Text>
       <View style={styles.pickerStyle}>
         <Picker
           style={styles.picker}
           dropdownIconColor={COLORS.BLACK}
           selectedValue={category}
-          onValueChange={value => setCategory(value)}>
+          onValueChange={handleOnSelectCategory}>
           <Picker.Item label={STRINGS.PERSONAL} value={STRINGS.PERSONAL} />
           <Picker.Item label={STRINGS.WORK} value={STRINGS.WORK} />
         </Picker>
@@ -103,16 +119,16 @@ const TaskForm = () => {
         <Picker
           style={styles.picker}
           dropdownIconColor={COLORS.BLACK}
-          selectedValue={category}
-          onValueChange={value => setCategory(value)}>
+          selectedValue={priority}
+          onValueChange={handleOnSelectPriority}>
           <Picker.Item label={STRINGS.HIGH} value={STRINGS.HIGH} />
           <Picker.Item label={STRINGS.MEDIUM} value={STRINGS.MEDIUM} />
           <Picker.Item label={STRINGS.LOW} value={STRINGS.LOW} />
         </Picker>
       </View>
 
-      <Text style={styles.text}>Due Date</Text>
-      <CustomDateTimePicker />
+      <Text style={styles.text}>{STRINGS.DUE_DATE}</Text>
+      <CustomDateTimePicker onDateChange={handleDateSelect} />
 
       <PaperButton
         mode="contained"
