@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         : priority == STRINGS.MEDIUM
         ? COLORS.MEDIUM
         : COLORS.LOW,
-    // padding: SIZES.SPACING_HORIZONTAL,
+    marginTop: SIZES.SPACING_HORIZONTAL,
     marginBottom: SIZES.SPACING_VERTICAL,
     borderRadius: SIZES.SPACING_HORIZONTAL,
     borderWidth: 1,

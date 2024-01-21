@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: SIZES.SPACING_HORIZONTAL * 2,
     backgroundColor: COLORS.WHITE,
+    paddingTop: SIZES.SPACING_VERTICAL * 2,
   },
   pickerStyle: {
     borderWidth: 1,

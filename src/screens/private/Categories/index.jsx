@@ -1,12 +1,12 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {STRINGS} from '../../../shared/constants';
+import TopTabNavigation from '../../../navigators/TopTabNavigators';
 
 const Categories = () => {
   return (
-    <View>
-      <Text>{STRINGS.TWO_CATEGORIES}</Text>
-      <Text>{STRINGS.WORK}</Text>
+    <View style={{flex: 1}}>
+      <TopTabNavigation />
     </View>
   );
 };

@@ -37,4 +37,6 @@ export const NAVIGATORS = {
   CATEGORIES: 'CATEGORIES',
   PRIVATE: 'PRIVATE',
   ADD_EDIT_VIEW_TASK: 'ADD_EDIT_VIEW_TASK',
+  PERSONAL: 'Personal',
+  WORK: 'Work',
 };
