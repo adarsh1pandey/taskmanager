@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: SIZES.SPACING_HORIZONTAL * 2,
+    backgroundColor: COLORS.WHITE,
   },
   pickerStyle: {
     borderWidth: 1,

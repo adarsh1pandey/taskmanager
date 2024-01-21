@@ -5,7 +5,13 @@ import {COLORS, getNormalizedSizeWithPlatformOffset} from '../../shared/utils';
 import CheckBox from '@react-native-community/checkbox';
 import styles from './styles';
 
-const TaskItem = ({task, onPress, onEdit, onDelete}) => {
+const TaskItem = ({
+  task,
+  onPress,
+  onEdit,
+  onDelete,
+  onCheckBoxToggle = value => {},
+}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const renderRight = props => {
@@ -15,16 +21,23 @@ const TaskItem = ({task, onPress, onEdit, onDelete}) => {
           style={styles.iconStyle}
           size={getNormalizedSizeWithPlatformOffset(20)}
           icon="pencil"
+          iconColor={COLORS.BLACK}
           onPress={onEdit}
         />
         <IconButton
           style={styles.iconStyle}
           size={getNormalizedSizeWithPlatformOffset(20)}
           icon="delete"
+          iconColor={COLORS.RED}
           onPress={onDelete}
         />
       </View>
     );
+  };
+
+  const handleToggleCheckBox = newValue => {
+    setToggleCheckBox(newValue);
+    onCheckBoxToggle(newValue);
   };
 
   const renderLeft = () => {
@@ -34,7 +47,7 @@ const TaskItem = ({task, onPress, onEdit, onDelete}) => {
           tintColors={{true: COLORS.RED, false: COLORS.BLACK}}
           disabled={false}
           value={toggleCheckBox}
-          onValueChange={newValue => setToggleCheckBox(newValue)}
+          onValueChange={handleToggleCheckBox}
         />
       </View>
     );
@@ -42,18 +55,39 @@ const TaskItem = ({task, onPress, onEdit, onDelete}) => {
 
   return (
     <TouchableOpacity
-      style={styles.container(task?.priority)}
+      style={[
+        {opacity: toggleCheckBox ? 0.3 : 1},
+        styles.container(task?.priority),
+      ]}
       onPress={onPress}>
       <List.Item
         title={task?.title}
-        titleStyle={styles.title}
+        titleStyle={[
+          {textDecorationLine: toggleCheckBox ? 'line-through' : 'none'},
+          styles.title,
+        ]}
         description={task?.description}
+        descriptionStyle={[
+          {textDecorationLine: toggleCheckBox ? 'line-through' : 'none'},
+        ]}
         right={renderRight}
         left={renderLeft}
       />
       <View style={styles.dateAndCategory}>
-        <Text style={styles.description}>{task?.date?.toLocaleString()}</Text>
-        <Text style={styles.description}>{task?.category}</Text>
+        <Text
+          style={[
+            {textDecorationLine: toggleCheckBox ? 'line-through' : 'none'},
+            styles.description,
+          ]}>
+          {task?.date?.toLocaleString()}
+        </Text>
+        <Text
+          style={[
+            {textDecorationLine: toggleCheckBox ? 'line-through' : 'none'},
+            styles.description,
+          ]}>
+          {task?.category}
+        </Text>
       </View>
     </TouchableOpacity>
   );

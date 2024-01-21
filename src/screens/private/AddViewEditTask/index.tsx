@@ -19,7 +19,10 @@ import {updateTaskArray} from '../../../store/Slices/TaskSlice';
 const TaskForm = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const {taskId} = route.params || {};
+  // const {task, edit} = route.params;
+  const task = route?.params?.task;
+  const edit = route?.params?.edit;
+  const add = route?.params?.add;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(STRINGS.PERSONAL);
@@ -32,18 +35,16 @@ const TaskForm = () => {
   console.log(taskArray, 'this is stae guys');
 
   useEffect(() => {
-    // Fetch task details for editing (implementation in Storage.js)
-    // if (taskId) {
-    //   const task = fetchTaskById(taskId);
-    //   setTitle(task.title);
-    //   setDescription(task.description);
-    //   setCategory(task.category);
-    //   setDueDate(task.dueDate);
-    // }
-  }, [taskId]);
+    if (task?.id) {
+      setTitle(task?.title);
+      setDescription(task?.description);
+      setCategory(task?.category);
+      setPriority(task?.priority);
+      setDueDate(task?.dueDate);
+    }
+  }, []);
 
   const onSubmit = () => {
-    // Add your validation logic here
     if (
       !title.trim() ||
       !description.trim() ||
@@ -54,18 +55,17 @@ const TaskForm = () => {
       setError('All fields are required');
       return;
     }
+    const currentDate = new Date();
 
-    // Save or update task logic (implementation in Storage.js)
     const data = {
+      id: currentDate?.getTime(),
       title,
       description,
       category,
-      dueDate: dueDate,
+      dueDate: dueDate.getTime(),
       priority,
       completed: false,
     };
-    console.log(taskArray, 'this is task array ');
-    // saveOrUpdateTask(data);
     dispatch(updateTaskArray({tasks: [...taskArray, data]}));
     navigation.goBack();
   };
@@ -83,7 +83,7 @@ const TaskForm = () => {
   };
 
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView style={styles.container}>
       <PaperTextInput
         label={STRINGS.TITLE}
         value={title}
@@ -129,13 +129,14 @@ const TaskForm = () => {
 
       <Text style={styles.text}>{STRINGS.DUE_DATE}</Text>
       <CustomDateTimePicker onDateChange={handleDateSelect} />
-
-      <PaperButton
-        mode="contained"
-        onPress={onSubmit}
-        style={styles.buttonStyle}>
-        {STRINGS.SAVE}
-      </PaperButton>
+      {(add || edit) && (
+        <PaperButton
+          mode="contained"
+          onPress={onSubmit}
+          style={styles.buttonStyle}>
+          {edit ? STRINGS.UPDATE : STRINGS.SAVE}
+        </PaperButton>
+      )}
     </KeyboardAwareScrollView>
   );
 };

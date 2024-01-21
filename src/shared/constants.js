@@ -16,6 +16,8 @@ export const STRINGS = {
   SAVE: 'Save',
   TITLE: 'Title',
   DESCRIPTION: 'Description',
+  EDIT: 'Edit',
+  UPDATE: 'Update',
   ERROR_MESSAGE: {
     TITLE_REQUIRED: 'Title is required',
     DESCRIPTION_REQUIRED: 'Description is required',

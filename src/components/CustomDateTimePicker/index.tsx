@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Button, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Text} from 'react-native-paper';
 import styles from './styles';
@@ -39,6 +39,8 @@ const CustomDateTimePicker = ({
         mode={initialMode}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
+        minimumDate={new Date()}
+        minimumTime={new Date()}
       />
     </View>
   );

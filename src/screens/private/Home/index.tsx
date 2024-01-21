@@ -10,27 +10,43 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {NAVIGATORS} from '../../../shared/constants';
 import {useDispatch, useSelector} from 'react-redux';
+import {updateTaskArray} from '../../../store/Slices/TaskSlice';
 
 const Home = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const taskArray = useSelector(state => state?.taskSlice?.tasks);
+  const taskArray = useSelector(state => state?.taskSlice?.tasks) || [];
   console.log(taskArray, 'this is task array ');
 
-  const handleTaskItemEditPress = () => {
-    console.log('edit pressed');
+  const handleTaskItemEditPress = task => {
+    navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK, {task, edit: true});
   };
-  const handleTaskItemDeletePress = () => {
-    console.log('delete pressed');
+  const handleTaskItemDeletePress = id => {
+    const filteredArray = taskArray.filter(item => item?.id != id);
+    dispatch(updateTaskArray({tasks: filteredArray}));
   };
-  const handleTaskItemPressed = () => {
-    console.log('task item pressed');
+  const handleTaskItemPressed = task => {
+    navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK, {task, edit: false});
   };
 
   const handleAddTaskButtonPress = () => {
-    navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK);
+    navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK, {add: true});
   };
 
+  const handleTaskMarkAsCompleted = (value, item) => {
+    console?.log(value, 'this is value guys');
+    const updatedArray = taskArray.reduce(function (accumulator, currentValue) {
+      if (currentValue.id === item?.id) {
+        accumulator.push({...currentValue, completed: value});
+      } else {
+        accumulator.push(currentValue);
+      }
+
+      return accumulator;
+    }, []);
+
+    dispatch(updateTaskArray({tasks: [...updatedArray]}));
+  };
   const renderTasks = ({item}, index) => {
     return (
       <TaskItem
@@ -41,9 +57,10 @@ const Home = () => {
           title: item?.title,
           description: item?.description,
         }}
-        onPress={handleTaskItemPressed}
-        onDelete={handleTaskItemDeletePress}
-        onEdit={handleTaskItemEditPress}
+        onPress={() => handleTaskItemPressed(item)}
+        onDelete={() => handleTaskItemDeletePress(item?.id)}
+        onEdit={() => handleTaskItemEditPress(item)}
+        onCheckBoxToggle={value => handleTaskMarkAsCompleted(value, item)}
       />
     );
   };
@@ -60,8 +77,8 @@ const Home = () => {
         style={styles.addIconView}
         onPress={handleAddTaskButtonPress}>
         <ADD_ICON
-          height={getNormalizedVerticalSizeWithPlatformOffset(40)}
-          width={getNormalizedSizeWithPlatformOffset(40)}
+          height={getNormalizedVerticalSizeWithPlatformOffset(50)}
+          width={getNormalizedSizeWithPlatformOffset(50)}
         />
       </TouchableOpacity>
     </View>
