@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../../screens/public/Login';
-import {NAVIGATORS} from '../../shared/constants';
+import {NAVIGATORS, STRINGS} from '../../shared/constants';
 import Private from '../../screens/private';
 import AddEditViewTask from '../../screens/private/AddViewEditTask';
 
@@ -18,6 +18,7 @@ const AppNavigator = () => {
       <Stack.Screen
         name={NAVIGATORS.ADD_EDIT_VIEW_TASK}
         component={AddEditViewTask}
+        options={{headerTitle: STRINGS.ADD_EDIT_VIEW_TASK}}
       />
     </Stack.Navigator>
   );

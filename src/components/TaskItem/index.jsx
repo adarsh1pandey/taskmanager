@@ -71,6 +71,7 @@ const TaskItem = ({
         description={task?.description}
         descriptionStyle={[
           {textDecorationLine: toggleCheckBox ? 'line-through' : 'none'},
+          styles.descriptionStyle,
         ]}
         right={renderRight}
         left={renderLeft}

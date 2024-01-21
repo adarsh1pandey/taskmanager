@@ -78,6 +78,7 @@ const Today = () => {
           completed: item?.completed,
           title: item?.title,
           description: item?.description,
+          priority: item?.priority,
         }}
         onPress={() => handleTaskItemPressed(item)}
         onDelete={() => handleTaskItemDeletePress(item?.id)}

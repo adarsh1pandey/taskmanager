@@ -11,6 +11,18 @@ const Completed = () => {
   const taskArray = useSelector(state => state?.taskSlice?.tasks);
   const [completedTasks, setCompletedTasks] = useState([]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const convertedArray = taskArray.filter(
+        value => value?.completed == true,
+      );
+      setCompletedTasks(() => convertedArray);
+      return () => {
+        setCompletedTasks([]);
+      };
+    }, [taskArray]),
+  );
+
   const renderTasks = ({item}, index) => {
     if (!item?.completed) {
       return;
@@ -23,6 +35,7 @@ const Completed = () => {
           completed: item?.completed,
           title: item?.title,
           description: item?.description,
+          priority: item?.priority,
         }}
         disable={true}
       />
@@ -32,7 +45,7 @@ const Completed = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={taskArray}
+        data={completedTasks}
         renderItem={renderTasks}
         keyExtractor={item => item?.id}
         ListEmptyComponent={CustomNoDataFound}

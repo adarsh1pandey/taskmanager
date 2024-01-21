@@ -1,9 +1,15 @@
 import {StyleSheet} from 'react-native';
 import {COLORS, SIZES} from '../../shared/utils';
+import {STRINGS} from '../../shared/constants';
 
 const styles = StyleSheet.create({
   container: (priority: any) => ({
-    // backgroundColor: priority == 1 ? '#f00' : '#ff0',
+    backgroundColor:
+      priority == STRINGS.HIGH
+        ? COLORS.HIGH
+        : priority == STRINGS.MEDIUM
+        ? COLORS.MEDIUM
+        : COLORS.LOW,
     // padding: SIZES.SPACING_HORIZONTAL,
     marginBottom: SIZES.SPACING_VERTICAL,
     borderRadius: SIZES.SPACING_HORIZONTAL,

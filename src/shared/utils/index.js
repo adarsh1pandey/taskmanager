@@ -64,4 +64,7 @@ export const COLORS = {
   BORDER_COLOR: '#8956ff',
   BACKGROUND_COLOR: '#e7ddff',
   GREEN: '#0f0',
+  HIGH: '#f56d52',
+  MEDIUM: '#52F59B',
+  LOW: '#E6C28F',
 };

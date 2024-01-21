@@ -20,10 +20,12 @@ export const STRINGS = {
   UPDATE: 'Update',
   OVERDUE: 'Over due',
   DATA_NOT_FOUND: 'Data Not found',
+  ADD_EDIT_VIEW_TASK: 'Add/Edit/View Task',
   ERROR_MESSAGE: {
     TITLE_REQUIRED: 'Title is required',
     DESCRIPTION_REQUIRED: 'Description is required',
   },
+  TWO_CATEGORIES: 'There are two categories',
 };
 
 export const NAVIGATORS = {

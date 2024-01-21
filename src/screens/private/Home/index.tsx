@@ -1,5 +1,5 @@
-import {View, ScrollView, Text, TouchableOpacity, FlatList} from 'react-native';
-import React from 'react';
+import {View, TouchableOpacity, FlatList} from 'react-native';
+import React, {useState} from 'react';
 import TaskItem from '../../../components/TaskItem';
 import styles from './styles';
 import {ADD_ICON} from '../../../assets/icons';
@@ -7,7 +7,7 @@ import {
   getNormalizedSizeWithPlatformOffset,
   getNormalizedVerticalSizeWithPlatformOffset,
 } from '../../../shared/utils';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NAVIGATORS} from '../../../shared/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateTaskArray} from '../../../store/Slices/TaskSlice';
@@ -17,8 +17,16 @@ const Home = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const taskArray = useSelector(state => state?.taskSlice?.tasks) || [];
-  console.log(taskArray, 'this is task array ');
+  const [taskArrayState, setTaskArrayState] = useState([]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setTaskArrayState(taskArray);
+      return () => {
+        setTaskArrayState([]);
+      };
+    }, [taskArray]),
+  );
   const handleTaskItemEditPress = task => {
     navigation.navigate(NAVIGATORS.ADD_EDIT_VIEW_TASK, {task, edit: true});
   };
@@ -35,7 +43,6 @@ const Home = () => {
   };
 
   const handleTaskMarkAsCompleted = (value, item) => {
-    console?.log(value, 'this is value guys');
     const updatedArray = taskArray.reduce(function (accumulator, currentValue) {
       if (currentValue.id === item?.id) {
         accumulator.push({...currentValue, completed: value});
@@ -48,7 +55,7 @@ const Home = () => {
 
     dispatch(updateTaskArray({tasks: [...updatedArray]}));
   };
-  const renderTasks = ({item}, index) => {
+  const renderTasks = ({item}) => {
     return (
       <TaskItem
         task={{
@@ -57,6 +64,7 @@ const Home = () => {
           completed: item?.completed,
           title: item?.title,
           description: item?.description,
+          priority: item?.priority,
         }}
         onPress={() => handleTaskItemPressed(item)}
         onDelete={() => handleTaskItemDeletePress(item?.id)}
@@ -69,7 +77,7 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={taskArray}
+        data={taskArrayState}
         keyExtractor={item => item?.id}
         renderItem={renderTasks}
         ListEmptyComponent={CustomNoDataFound}
