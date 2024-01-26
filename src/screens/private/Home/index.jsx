@@ -1,11 +1,12 @@
 import {View, TouchableOpacity, FlatList} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TaskItem from '../../../components/TaskItem';
 import styles from './styles';
-import {ADD_ICON} from '../../../assets/icons';
+import {ADD_ICON, CAMERA_SVG} from '../../../assets/icons';
 import {
   getNormalizedSizeWithPlatformOffset,
   getNormalizedVerticalSizeWithPlatformOffset,
+  requestCameraPermission,
 } from '../../../shared/utils';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NAVIGATORS} from '../../../shared/constants';
@@ -16,9 +17,12 @@ import CustomNoDataFound from '../../../components/CustomNoDataFound';
 const Home = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const taskArray = useSelector(state => state?.taskSlice?.tasks) || [];
+  const taskArray = useSelector(state => state?.taskSlice?.tasks);
   const [taskArrayState, setTaskArrayState] = useState([]);
 
+  useEffect(() => {
+    requestCameraPermission();
+  }, []);
   useFocusEffect(
     React.useCallback(() => {
       setTaskArrayState(taskArray);
@@ -55,6 +59,7 @@ const Home = () => {
 
     dispatch(updateTaskArray({tasks: [...updatedArray]}));
   };
+
   const renderTasks = ({item}) => {
     return (
       <TaskItem
@@ -73,6 +78,9 @@ const Home = () => {
       />
     );
   };
+  const handleGoToCamera = () => {
+    navigation.navigate(NAVIGATORS.CAMERA);
+  };
 
   return (
     <View style={styles.container}>
@@ -87,6 +95,14 @@ const Home = () => {
         style={styles.addIconView}
         onPress={handleAddTaskButtonPress}>
         <ADD_ICON
+          height={getNormalizedVerticalSizeWithPlatformOffset(50)}
+          width={getNormalizedSizeWithPlatformOffset(50)}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.cameraIconView}
+        onPress={handleGoToCamera}>
+        <CAMERA_SVG
           height={getNormalizedVerticalSizeWithPlatformOffset(50)}
           width={getNormalizedSizeWithPlatformOffset(50)}
         />

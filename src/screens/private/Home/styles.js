@@ -13,6 +13,12 @@ const styles = StyleSheet.create({
     right: 0,
     margin: SIZES.SPACING_HORIZONTAL * 2,
   },
+  cameraIconView: {
+    position: 'absolute',
+    bottom: SIZES.SPACING_HORIZONTAL * 6,
+    right: 0,
+    margin: SIZES.SPACING_HORIZONTAL * 2,
+  },
 });
 
 export default styles;

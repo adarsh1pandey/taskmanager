@@ -26,6 +26,10 @@ export const STRINGS = {
     DESCRIPTION_REQUIRED: 'Description is required',
   },
   TWO_CATEGORIES: 'There are two categories',
+  CAMERA: 'Camera',
+  CAPTURE: 'Capture',
+  IMAGE: 'Image',
+  CONVERTING_BASE64: 'Converting to base64...',
 };
 
 export const NAVIGATORS = {
@@ -39,4 +43,6 @@ export const NAVIGATORS = {
   ADD_EDIT_VIEW_TASK: 'ADD_EDIT_VIEW_TASK',
   PERSONAL: 'Personal',
   WORK: 'Work',
+  CAMERA: 'Camera',
+  IMAGE: 'Image',
 };

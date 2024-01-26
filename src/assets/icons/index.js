@@ -5,6 +5,7 @@ import TODAY_ICON from './TodayIcon.svg';
 import ADD_ICON from './Add.svg';
 import EDIT_ICON from './Edit.svg';
 import DELETE_ICON from './DeleteIcon.svg';
+import CAMERA_SVG from './Camera.svg';
 
 export {
   CATEGORY_ICON,
@@ -14,4 +15,5 @@ export {
   ADD_ICON,
   EDIT_ICON,
   DELETE_ICON,
+  CAMERA_SVG,
 };
